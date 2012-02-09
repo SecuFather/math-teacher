@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ActionWindow</class>
+ <widget class="QWidget" name="ActionWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>216</width>
+    <height>202</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>13</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>211</width>
+     <height>199</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="bottomMargin">
+     <number>6</number>
+    </property>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="problemLabel">
+        <property name="text">
+         <string>Problem:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="resultEdit">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QPushButton" name="checkButton">
+      <property name="text">
+       <string>Check!</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="prevLabel">
+      <property name="text">
+       <string>Previous</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="statsLabel">
+      <property name="text">
+       <string>Stats</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="backButton">
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>resultEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>checkButton</receiver>
+   <slot>animateClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>141</x>
+     <y>16</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>147</x>
+     <y>49</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
