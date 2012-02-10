@@ -1,5 +1,6 @@
 #include "actionwindow.h"
 #include "ui_actionwindow.h"
+#include "windowutil.h"
 
 ActionWindow::ActionWindow(QWidget *parent) :
     QWidget(parent),
@@ -21,9 +22,9 @@ void ActionWindow::setProblem(QString problem){
 
 void ActionWindow::setPrevious(QString prev, bool correct){
     if(correct){
-        ui->prevLabel->setStyleSheet("QLabel {color: green;}");
+        changeLabelColor(ui->prevLabel, Qt::green);
     }else{
-        ui->prevLabel->setStyleSheet("QLabel {color: red;}");
+        changeLabelColor(ui->prevLabel, Qt::red);
     }
     ui->prevLabel->setText(prev + ui->resultEdit->text());
     ui->resultEdit->setText("");
@@ -33,8 +34,8 @@ void ActionWindow::setStats(int correct, int all){
     ui->statsLabel->setText(QString::number(correct) + "/" + QString::number(all));
 }
 
-double ActionWindow::getResult(bool &b){
-    double res = ui->resultEdit->text().toDouble(&b);
+int ActionWindow::getResult(bool &b){
+    int res = ui->resultEdit->text().toInt(&b);
     ui->resultEdit->setFocus();
     return res;
 }

@@ -8,14 +8,19 @@
 #include "actionwindow.h"
 #include "operation.h"
 
-MathTeacher::MathTeacher() :
-    opCount(1), chosenOp(new int[opCount]),
+MathTeacher::MathTeacher() :    
+    opCount(0),
     setupSucceed(true), sl(new QStringList()), aw(new ActionWindow()),
     opVector(QVector<Operation*>()), timer(new QTimer())
 {
     qsrand(QTime::currentTime().msecsTo(QTime(0,0)));
     addOp(new Addition());
+    addOp(new Subtraction());
+    addOp(new Multiplication());
+    chosenOp = new int[opCount];
     sw = new SetupWindow(sl);
+    sw->setGeometry(500, 300, sw->width(), sw->height());
+    aw->setGeometry(500, 300, aw->width(), aw->height());
 
     QObject::connect(sw, SIGNAL(setupDone()), this, SLOT(init()));
     QObject::connect(sw, SIGNAL(wrongInput()), this, SLOT(error()));
@@ -30,8 +35,8 @@ MathTeacher::~MathTeacher(){
         delete opVector.back();
         opVector.pop_back();
     }
-    delete aw;
     delete sw;
+    delete aw;
     delete sl;
 }
 
@@ -69,7 +74,7 @@ void MathTeacher::error(){
 
 void MathTeacher::go(){
     bool ok;
-    double ans = aw->getResult(ok);
+    int ans = aw->getResult(ok);
     aw->setPrevious(problem, (ans == result) && ok);
     if((ans == result) && ok){
         ++correctAns;
@@ -88,4 +93,5 @@ void MathTeacher::goBack(){
 void MathTeacher::addOp(Operation *op){
     opVector.push_back(op);
     sl->append(op->getName());
+    ++opCount;
 }

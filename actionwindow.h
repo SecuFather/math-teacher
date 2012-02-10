@@ -19,7 +19,7 @@ public:
     void setPrevious(QString prev, bool correct);
     void setStats(int correct, int all);
 
-    double getResult(bool &b);
+    int getResult(bool &b);
 private:
     Ui::ActionWindow *ui;
 

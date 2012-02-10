@@ -1,21 +1,24 @@
 #include "operation.h"
 #include <QTime>
+#include <cmath>
 
-QString Addition::getProblem(double &result, int from, int to){
+QString Addition::getProblem(int &result, int from, int to){
     QString problem;
     int x = random(from, to);
     int y = random(from, to);
 
-    if(x+y < from || x+y > to){
+    while(x+y < from || x+y > to){
+        if(abs(y)>abs(x)){
+            swap(x, y);
+        }
         x/=2;
-        y/=2;
     }
-    result = static_cast<double>(x+y);
+    result = x+y;
     problem.append(IntToStr(x) + " + " + IntToStr(y) + " = ");
     return problem;
 }
 
-int Operation::random(int min, int max){
+int Operation::random(int min, int max){    
     return min + (qrand()%(max-min));
 }
 
@@ -24,4 +27,46 @@ QString Operation::IntToStr(int x){
         return "(" + QString::number(x) + ")";
     }
     return QString::number(x);
+}
+
+void Operation::swap(int &x, int &y){
+    int t = x;
+    x = y;
+    y = t;
+}
+
+int Operation::abs(int x){
+    return (x>0 ? x : -x);
+}
+
+QString Subtraction::getProblem(int &result, int from, int to){
+    QString problem;
+    int x = random(from, to);
+    int y = random(from, to);
+
+    while(x-y < from || x-y > to){
+        if(abs(y)>abs(x)){
+            swap(x, y);
+        }
+        x/=2;
+    }
+    result = x-y;
+    problem.append(IntToStr(x) + " - " + IntToStr(y) + " = ");
+    return problem;
+}
+
+QString Multiplication::getProblem(int &result, int from, int to){
+    QString problem;
+    int x = random(from, to);
+    int y = random(from, to);
+
+    while(x*y < from || x*y > to){
+        if(abs(y)>abs(x)){
+            swap(x, y);
+        }
+        x = (x<0 ? -sqrt(-x) : sqrt(x));
+    }
+    result = x*y;
+    problem.append(IntToStr(x) + " * " + IntToStr(y) + " = ");
+    return problem;
 }

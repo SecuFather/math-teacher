@@ -1,9 +1,10 @@
 #include "setupwindow.h"
 #include "ui_setupwindow.h"
+#include "windowutil.h"
 #include <QStringList>
 #include <QCheckBox>
 #include <QMessageBox>
-#include <QPalette>
+
 
 SetupWindow::SetupWindow(QStringList *sl, QWidget *parent) :
     QWidget(parent),
@@ -33,21 +34,21 @@ SetupWindow::~SetupWindow(){
 int SetupWindow::getFrom(){
     int result = ui->fromEdit->text().toInt(&succeed);
     if(!succeed){
-        ui->fromLabel->setStyleSheet("QLabel {color:red;}");
+        changeLabelColor(ui->fromLabel, Qt::red);
         emit wrongInput();        
     }else{
-        ui->fromLabel->setStyleSheet("QLabel {color:green;}");
+        changeLabelColor(ui->fromLabel, Qt::green);
     }
     return result;
 }
 
 int SetupWindow::getTo(){
-    int result = ui->toEdit->text().toInt(&succeed);
-    if(!succeed){
-        ui->toLabel->setStyleSheet("QLabel {color:red;}");
+    int result = ui->toEdit->text().toInt(&succeed);    
+    if(!succeed){        
+        changeLabelColor(ui->toLabel, Qt::red);
         emit wrongInput();
-    }else{
-        ui->toLabel->setStyleSheet("QLabel {color:green;}");
+    }else{        
+        changeLabelColor(ui->toLabel, Qt::green);
     }
     return result;
 }
@@ -55,10 +56,10 @@ int SetupWindow::getTo(){
 int SetupWindow::getTime(){
     int result = ui->timeEdit->text().toInt(&succeed);
     if(!succeed){
-        ui->timeLabel->setStyleSheet("QLabel {color:red;}");
+        changeLabelColor(ui->timeLabel, Qt::red);
         emit wrongInput();
     }else{
-        ui->timeLabel->setStyleSheet("QLabel {color:green;}");
+        changeLabelColor(ui->timeLabel, Qt::green);
     }
     return result;
 }

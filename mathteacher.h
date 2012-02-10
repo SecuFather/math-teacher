@@ -9,19 +9,20 @@ class SetupWindow;
 class ActionWindow;
 class Operation;
 class QTimer;
+class QMainWindow;
 
 class MathTeacher : public QObject{
     Q_OBJECT
 private:
     int from, to, time, opCount, chosenOpCount, *chosenOp, correctAns, ansCount;
     bool setupSucceed;
-    double result;
+    int result;
     QString problem;
-    QStringList *sl;
+    QStringList *sl;    
     SetupWindow *sw;
     ActionWindow *aw;
     QVector<Operation*> opVector;
-    QTimer *timer;
+    QTimer *timer;    
 
 public:
     MathTeacher();
