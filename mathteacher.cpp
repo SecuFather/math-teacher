@@ -17,6 +17,9 @@ MathTeacher::MathTeacher() :
     addOp(new Addition());
     addOp(new Subtraction());
     addOp(new Multiplication());
+    addOp(new Division());
+    addOp(new Modulation());
+    addOp(new SquareRoot());
     chosenOp = new int[opCount];
     sw = new SetupWindow(sl);
     sw->setGeometry(500, 300, sw->width(), sw->height());
@@ -72,11 +75,8 @@ void MathTeacher::error(){
     setupSucceed = false;
 }
 
-void MathTeacher::go(){
-    bool ok;
-    int ans = aw->getResult(ok);
-    aw->setPrevious(problem, (ans == result) && ok);
-    if((ans == result) && ok){
+void MathTeacher::go(){    
+    if(aw->setPrevious(problem, result)){
         ++correctAns;
     }
     problem = opVector.at(chosenOp[Operation::random(0, chosenOpCount)])->getProblem(result, from, to);

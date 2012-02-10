@@ -38,4 +38,25 @@ public:
     virtual QString getProblem(int &result, int from, int to);
 };
 
+class Division : public Operation{
+public:
+    Division() : Operation("Division"){}
+
+    virtual QString getProblem(int &result, int from, int to);
+};
+
+class Modulation : public Operation{
+public:
+    Modulation() : Operation("Modulation"){}
+
+    virtual QString getProblem(int &result, int from, int to);
+};
+
+class SquareRoot : public Operation{
+public:
+    SquareRoot() : Operation("Square Root"){}
+
+    virtual QString getProblem(int &result, int from, int to);
+};
+
 #endif // OPERATION_H

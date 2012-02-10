@@ -16,7 +16,7 @@ public:
     ~ActionWindow();
 
     void setProblem(QString problem);
-    void setPrevious(QString prev, bool correct);
+    bool setPrevious(QString prev, int result);
     void setStats(int correct, int all);
 
     int getResult(bool &b);

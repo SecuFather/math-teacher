@@ -70,3 +70,36 @@ QString Multiplication::getProblem(int &result, int from, int to){
     problem.append(IntToStr(x) + " * " + IntToStr(y) + " = ");
     return problem;
 }
+
+QString Division::getProblem(int &result, int from, int to){
+    QString problem;
+    int p = random(0, 2);
+    int x = random(4, from*(p-1)+to*p)*(1-p*2);
+    p = random(0, 2);
+    int y = random(1, abs(x)/2)*(1-p*2);
+
+    result = x/y;
+    problem.append(IntToStr(x) + " / " + IntToStr(y) + " = ");
+    return problem;
+}
+
+QString Modulation::getProblem(int &result, int from, int to){
+    QString problem;
+    int p = random(0, 2);
+    int x = random(4, from*(p-1)+to*p)*(1-p*2);
+    p = random(0, 2);
+    int y = random(1, abs(x)/2)*(1-p*2);
+
+    result = x%y;
+    problem.append(IntToStr(x) + " % " + IntToStr(y) + " = ");
+    return problem;
+}
+
+QString SquareRoot::getProblem(int &result, int from, int to){
+    QString problem;
+    result = random(2, sqrt(abs(to))+1);
+    int x = result*result + random(0, result);
+
+    problem.append("sqrt( " +  IntToStr(x) + " ) = ");
+    return problem;
+}
