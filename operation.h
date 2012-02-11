@@ -54,7 +54,7 @@ public:
 
 class SquareRoot : public Operation{
 public:
-    SquareRoot() : Operation("Square Root"){}
+    SquareRoot() : Operation("Square-Root"){}
 
     virtual QString getProblem(int &result, int from, int to);
 };

@@ -10,19 +10,21 @@ class ActionWindow;
 class Operation;
 class QTimer;
 class QMainWindow;
+class QFile;
 
 class MathTeacher : public QObject{
     Q_OBJECT
 private:
-    int from, to, time, opCount, chosenOpCount, *chosenOp, correctAns, ansCount;
+    int from, to, time, opCount, chosenOpCount, *chosenOp, correctAns, ansCount, *goodAns, *allAns;
     bool setupSucceed;
-    int result;
+    int result, randO;
     QString problem;
     QStringList *sl;    
     SetupWindow *sw;
     ActionWindow *aw;
     QVector<Operation*> opVector;
     QTimer *timer;    
+    QFile *file;
 
 public:
     MathTeacher();
@@ -30,6 +32,8 @@ public:
 
     void show();
     void addOp(Operation *op);
+    void loadStats();
+    void saveStats();
 
 public slots:
     void init();

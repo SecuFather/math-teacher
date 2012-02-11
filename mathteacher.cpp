@@ -3,6 +3,8 @@
 #include <QStringList>
 #include <QTime>
 #include <QTimer>
+#include <QFile>
+#include <QTextStream>
 
 #include "setupwindow.h"
 #include "actionwindow.h"
@@ -11,17 +13,23 @@
 MathTeacher::MathTeacher() :    
     opCount(0),
     setupSucceed(true), sl(new QStringList()), aw(new ActionWindow()),
-    opVector(QVector<Operation*>()), timer(new QTimer())
+    opVector(QVector<Operation*>()), timer(new QTimer()), file(new QFile("stats.txt"))
 {
     qsrand(QTime::currentTime().msecsTo(QTime(0,0)));
+
     addOp(new Addition());
     addOp(new Subtraction());
     addOp(new Multiplication());
     addOp(new Division());
     addOp(new Modulation());
     addOp(new SquareRoot());
+
     chosenOp = new int[opCount];
-    sw = new SetupWindow(sl);
+    goodAns = new int[opCount];
+    allAns = new int[opCount];
+    sw = new SetupWindow(sl);    
+    loadStats();
+
     sw->setGeometry(500, 300, sw->width(), sw->height());
     aw->setGeometry(500, 300, aw->width(), aw->height());
 
@@ -33,6 +41,10 @@ MathTeacher::MathTeacher() :
 }
 
 MathTeacher::~MathTeacher(){
+    saveStats();
+    delete file;
+    delete[] allAns;
+    delete[] goodAns;
     delete[] chosenOp;
     for(int i=0; i<opCount; ++i){
         delete opVector.back();
@@ -59,7 +71,7 @@ void MathTeacher::init(){
                 chosenOp[chosenOpCount++] = i;
             }
         }
-        if(chosenOpCount){
+        if(chosenOpCount){            
             ansCount = -1;
             correctAns = 0;
             go();
@@ -77,17 +89,21 @@ void MathTeacher::error(){
 
 void MathTeacher::go(){    
     if(aw->setPrevious(problem, result)){
-        ++correctAns;
+        ++correctAns;        
+        ++goodAns[chosenOp[randO]];
     }
-    problem = opVector.at(chosenOp[Operation::random(0, chosenOpCount)])->getProblem(result, from, to);
+    randO = Operation::random(0, chosenOpCount);
+    problem = opVector.at(chosenOp[randO])->getProblem(result, from, to);
     aw->setProblem(problem);
     aw->setStats(correctAns, ++ansCount);
+    ++allAns[chosenOp[randO]];
     timer->start(time*1000);
 }
 
 void MathTeacher::goBack(){
     aw->hide();
     sw->show();
+    saveStats();
 }
 
 void MathTeacher::addOp(Operation *op){
@@ -95,3 +111,42 @@ void MathTeacher::addOp(Operation *op){
     sl->append(op->getName());
     ++opCount;
 }
+
+void MathTeacher::loadStats(){
+    if(file->open(QFile::ReadOnly)){
+        QTextStream ts(file);
+        QString buf;
+        for(int i=0; i<opCount; ++i){
+            if((buf = ts.readLine()).isEmpty()){
+                goodAns[i]=0;
+                allAns[i]=0;
+            }else{
+                QStringList tmp = buf.split(" ");
+                goodAns[i] = tmp.at(1).toInt();
+                allAns[i] = tmp.at(2).toInt();
+            }
+        }
+        file->close();
+    }else{
+        for(int i=0; i<opCount; ++i){
+            goodAns[i]=0;
+            allAns[i]=0;
+        }
+    }
+}
+
+void MathTeacher::saveStats(){
+    file->open(QIODevice::WriteOnly | QIODevice::Text);
+    QString out;
+    QTextStream ts(file);
+
+    for(int i=0; i<opCount; ++i){
+        out.append(sl->at(i) + " " +
+                   QString::number(goodAns[i]) + " " +
+                   QString::number(allAns[i]) + "\n");
+    }
+    ts<<out;
+    file->close();
+
+}
+
